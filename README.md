@@ -8,4 +8,16 @@ Vocal AI that makes phone conversations, opening with "Hi this is Nev from Catfi
 - Response gets converted to speech and vocalized via [TTS-API](http://tts-api.com/)
 - This loops and conversation ensues
 
-<img src="http://www.randygingeleski.com/wp-content/uploads/2015/06/catfish-nev.jpg" style="text-align: center;">
+<div id="container">
+<img src="http://www.randygingeleski.com/wp-content/uploads/2015/06/catfish-nev.jpg">
+</div>
+
+#container {
+    height: 176px;
+    line-height: 176px;
+}
+
+#container img {
+    vertical-align: middle;
+    max-height: 100%;
+}
