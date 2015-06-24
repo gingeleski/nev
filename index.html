@@ -3,11 +3,11 @@
     <meta charset="utf-8">
     <title>Nev</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="script/elizabot.js"></script>
-    <script src="script/elizadata.js"></script>
-    <script src="script/eliza.js"></script>
+    <script src="script/nevbot.js"></script>
+    <script src="script/nevdata.js"></script>
+    <script src="script/nev.js"></script>
 </head>
-<body onload="window.setTimeout('elizaReset()',100)">
+<body onload="window.setTimeout('nevReset()',100)">
     <h1 class="center" id="headline">Nev</h1>
 
     <div id="info">
@@ -50,11 +50,11 @@
 
     <center>
     <table border="0" cellspacing="10" cellpadding="0">
-    <form name="e_form" onsubmit="elizaStep();return false">
+    <form name="e_form" onsubmit="nevStep();return false">
     <tr><td colspan="2"><textarea name="e_display" cols="60" rows="20"></textarea></td></tr>
     <tr valign="middle">
     	<td><input type="text" name="e_input" size="50"></td>
-    	<td align="right"><input type="submit" value="&nbsp;Talk&nbsp;"> <input type="reset" value="Reset" onClick="window.setTimeout('elizaReset()',100)"></td>
+    	<td align="right"><input type="submit" value="&nbsp;Talk&nbsp;"></td>
     </tr>
     </form>
     </table>
