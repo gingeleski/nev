@@ -1,52 +1,49 @@
 /*
-  elizabot.js v.1.1 - ELIZA JS library (N.Landsteiner 2005)
-  Eliza is a mock Rogerian psychotherapist.
-  Original program by Joseph Weizenbaum in MAD-SLIP for "Project MAC" at MIT.
+  nevbot.js is built on top of elizabot.js v.1.1 - ELIZA JS library (N.Landsteiner 2005)
+  Eliza was a mock Rogerian psychotherapist.
+  Original program for that by Joseph Weizenbaum in MAD-SLIP for "Project MAC" at MIT.
   cf: Weizenbaum, Joseph "ELIZA - A Computer Program For the Study of Natural Language
       Communication Between Man and Machine"
       in: Communications of the ACM; Volume 9 , Issue 1 (January 1966): p 36-45.
-  JavaScript implementation by Norbert Landsteiner 2005; <http://www.masserk.at>
+  Credit to Norbert Landsteiner 2005; <http://www.masserk.at> for elizabot.js
 
   synopsis:
 
-         new ElizaBot( <random-choice-disable-flag> )
-         ElizaBot.prototype.transform( <inputstring> )
-         ElizaBot.prototype.getInitial()
-         ElizaBot.prototype.getFinal()
-         ElizaBot.prototype.reset()
+         new NevBot( <random-choice-disable-flag> )
+         NevBot.prototype.transform( <inputstring> )
+         NevBot.prototype.getInitial()
+         NevBot.prototype.getFinal()
+         NevBot.prototype.reset()
 
-  usage: var eliza = new ElizaBot();
-         var initial = eliza.getInitial();
-         var reply = eliza.transform(inputstring);
-         if (eliza.quit) {
+  usage: var nev = new NevBot();
+         var initial = nev.getInitial();
+         var reply = nev.transform(inputstring);
+         if (nev.quit) {
              // last user input was a quit phrase
          }
 
          // method `transform()' returns a final phrase in case of a quit phrase
          // but you can also get a final phrase with:
-         var final = eliza.getFinal();
+         var final = nev.getFinal();
 
          // other methods: reset memory and internal state
-         eliza.reset();
+         nev.reset();
 
          // to set the internal memory size override property `memSize':
-         eliza.memSize = 100; // (default: 20)
+         nev.memSize = 100; // (default: 20)
 
-         // to reproduce the example conversation given by J. Weizenbaum
+         // to reproduce the example conversation given by J. Weizenbaum with Eliza
          // initialize with the optional random-choice-disable flag
-         var originalEliza = new ElizaBot(true);
+         var originalNev = new NevBot(true);
 
-  `ElizaBot' is also a general chatbot engine that can be supplied with any rule set.
-  (for required data structures cf. "elizadata.js" and/or see the documentation.)
+  `NevBot' is also a general chatbot engine that can be supplied with any rule set.
   data is parsed and transformed for internal use at the creation time of the
-  first instance of the `ElizaBot' constructor.
+  first instance of the `NevBot' constructor.
 
-  vers 1.1: lambda functions in RegExps are currently a problem with too many browsers.
-            changed code to work around.
 */
 
 
-function ElizaBot(noRandomFlag) {
+function NevBot(noRandomFlag) {
 	this.noRandom= (noRandomFlag)? true:false;
 	this.capitalizeFirstLetter=true;
 	this.debug=false;
@@ -56,31 +53,31 @@ function ElizaBot(noRandomFlag) {
 	this.reset();
 }
 
-ElizaBot.prototype.reset = function() {
+NevBot.prototype.reset = function() {
 	this.quit=false;
 	this.mem=[];
 	this.lastchoice=[];
-	for (var k=0; k<elizaKeywords.length; k++) {
+	for (var k=0; k<nevKeywords.length; k++) {
 		this.lastchoice[k]=[];
-		var rules=elizaKeywords[k][2];
+		var rules=nevKeywords[k][2];
 		for (var i=0; i<rules.length; i++) this.lastchoice[k][i]=-1;
 	}
 }
 
-ElizaBot.prototype._dataParsed = false;
+NevBot.prototype._dataParsed = false;
 
-ElizaBot.prototype._init = function() {
+NevBot.prototype._init = function() {
 	// install ref to global object
-	var global=ElizaBot.prototype.global=self;
+	var global=NevBot.prototype.global=self;
 	// parse data and convert it from canonical form to internal use
 	// prodoce synonym list
 	var synPatterns={};
-	if ((global.elizaSynons) && (typeof elizaSynons == 'object')) {
-		for (var i in elizaSynons) synPatterns[i]='('+i+'|'+elizaSynons[i].join('|')+')';
+	if ((global.nevSynons) && (typeof nevSynons == 'object')) {
+		for (var i in nevSynons) synPatterns[i]='('+i+'|'+nevSynons[i].join('|')+')';
 	}
 	// check for keywords or install empty structure to prevent any errors
-	if ((!global.elizaKeywords) || (typeof elizaKeywords.length == 'undefined')) {
-		elizaKeywords=[['###',0,[['###',[]]]]];
+	if ((!global.nevKeywords) || (typeof nevKeywords.length == 'undefined')) {
+		nevKeywords=[['###',0,[['###',[]]]]];
 	}
 	// 1st convert rules to regexps
 	// expand synonyms and insert asterisk expressions for backtracking
@@ -90,9 +87,9 @@ ElizaBot.prototype._init = function() {
 	var are2=/(\S)\s*\*\s*$/;
 	var are3=/^\s*\*\s*$/;
 	var wsre=/\s+/g;
-	for (var k=0; k<elizaKeywords.length; k++) {
-		var rules=elizaKeywords[k][2];
-		elizaKeywords[k][3]=k; // save original index for sorting
+	for (var k=0; k<nevKeywords.length; k++) {
+		var rules=nevKeywords[k][2];
+		nevKeywords[k][3]=k; // save original index for sorting
 		for (var i=0; i<rules.length; i++) {
 			var r=rules[i];
 			// check mem flag and store it as decomp's element 2
@@ -151,45 +148,45 @@ ElizaBot.prototype._init = function() {
 		}
 	}
 	// now sort keywords by rank (highest first)
-	elizaKeywords.sort(this._sortKeywords);
+	nevKeywords.sort(this._sortKeywords);
 	// and compose regexps and refs for pres and posts
-	ElizaBot.prototype.pres={};
-	ElizaBot.prototype.posts={};
-	if ((global.elizaPres) && (elizaPres.length)) {
+	NevBot.prototype.pres={};
+	NevBot.prototype.posts={};
+	if ((global.nevPres) && (nevPres.length)) {
 		var a=new Array();
-		for (var i=0; i<elizaPres.length; i+=2) {
-			a.push(elizaPres[i]);
-			ElizaBot.prototype.pres[elizaPres[i]]=elizaPres[i+1];
+		for (var i=0; i<nevPres.length; i+=2) {
+			a.push(nevPres[i]);
+			NevBot.prototype.pres[nevPres[i]]=nevPres[i+1];
 		}
-		ElizaBot.prototype.preExp = new RegExp('\\b('+a.join('|')+')\\b');
+		NevBot.prototype.preExp = new RegExp('\\b('+a.join('|')+')\\b');
 	}
 	else {
 		// default (should not match)
-		ElizaBot.prototype.preExp = /####/;
-		ElizaBot.prototype.pres['####']='####';
+		NevBot.prototype.preExp = /####/;
+		NevBot.prototype.pres['####']='####';
 	}
-	if ((global.elizaPosts) && (elizaPosts.length)) {
+	if ((global.nevPosts) && (nevPosts.length)) {
 		var a=new Array();
-		for (var i=0; i<elizaPosts.length; i+=2) {
-			a.push(elizaPosts[i]);
-			ElizaBot.prototype.posts[elizaPosts[i]]=elizaPosts[i+1];
+		for (var i=0; i<nevPosts.length; i+=2) {
+			a.push(nevPosts[i]);
+			NevBot.prototype.posts[nevPosts[i]]=nevPosts[i+1];
 		}
-		ElizaBot.prototype.postExp = new RegExp('\\b('+a.join('|')+')\\b');
+		NevBot.prototype.postExp = new RegExp('\\b('+a.join('|')+')\\b');
 	}
 	else {
 		// default (should not match)
-		ElizaBot.prototype.postExp = /####/;
-		ElizaBot.prototype.posts['####']='####';
+		NevBot.prototype.postExp = /####/;
+		NevBot.prototype.posts['####']='####';
 	}
-	// check for elizaQuits and install default if missing
-	if ((!global.elizaQuits) || (typeof elizaQuits.length == 'undefined')) {
-		elizaQuits=[];
+	// check for nevQuits and install default if missing
+	if ((!global.nevQuits) || (typeof nevQuits.length == 'undefined')) {
+		nevQuits=[];
 	}
 	// done
-	ElizaBot.prototype._dataParsed=true;
+	NevBot.prototype._dataParsed=true;
 }
 
-ElizaBot.prototype._sortKeywords = function(a,b) {
+NevBot.prototype._sortKeywords = function(a,b) {
 	// sort by rank
 	if (a[1]>b[1]) return -1
 	else if (a[1]<b[1]) return 1
@@ -199,7 +196,7 @@ ElizaBot.prototype._sortKeywords = function(a,b) {
 	else return 0;
 }
 
-ElizaBot.prototype.transform = function(text) {
+NevBot.prototype.transform = function(text) {
 	var rpl='';
 	this.quit=false;
 	// unify text string
@@ -215,8 +212,8 @@ ElizaBot.prototype.transform = function(text) {
 		var part=parts[i];
 		if (part!='') {
 			// check for quit expression
-			for (var q=0; q<elizaQuits.length; q++) {
-				if (elizaQuits[q]==part) {
+			for (var q=0; q<nevQuits.length; q++) {
+				if (nevQuits[q]==part) {
 					this.quit=true;
 					return this.getFinal();
 				}
@@ -235,8 +232,8 @@ ElizaBot.prototype.transform = function(text) {
 			}
 			this.sentence=part;
 			// loop trough keywords
-			for (var k=0; k<elizaKeywords.length; k++) {
-				if (part.search(new RegExp('\\b'+elizaKeywords[k][0]+'\\b', 'i'))>=0) {
+			for (var k=0; k<nevKeywords.length; k++) {
+				if (part.search(new RegExp('\\b'+nevKeywords[k][0]+'\\b', 'i'))>=0) {
 					rpl = this._execRule(k);
 				}
 				if (rpl!='') return rpl;
@@ -255,8 +252,8 @@ ElizaBot.prototype.transform = function(text) {
 	return (rpl!='')? rpl : 'I am at a loss for words.';
 }
 
-ElizaBot.prototype._execRule = function(k) {
-	var rule=elizaKeywords[k];
+NevBot.prototype._execRule = function(k) {
+	var rule=nevKeywords[k];
 	var decomps=rule[2];
 	var paramre=/\(([0-9]+)\)/;
 	for (var i=0; i<decomps.length; i++) {
@@ -276,8 +273,8 @@ ElizaBot.prototype._execRule = function(k) {
 				this.lastchoice[k][i]=ri;
 			}
 			var rpl=reasmbs[ri];
-			if (this.debug) alert('match:\nkey: '+elizaKeywords[k][0]+
-				'\nrank: '+elizaKeywords[k][1]+
+			if (this.debug) alert('match:\nkey: '+nevKeywords[k][0]+
+				'\nrank: '+nevKeywords[k][1]+
 				'\ndecomp: '+decomps[i][0]+
 				'\nreasmb: '+rpl+
 				'\nmemflag: '+memflag);
@@ -318,14 +315,14 @@ ElizaBot.prototype._execRule = function(k) {
 	return '';
 }
 
-ElizaBot.prototype._postTransform = function(s) {
+NevBot.prototype._postTransform = function(s) {
 	// final cleanings
 	s=s.replace(/\s{2,}/g, ' ');
 	s=s.replace(/\s+\./g, '.');
-	if ((this.global.elizaPostTransforms) && (elizaPostTransforms.length)) {
-		for (var i=0; i<elizaPostTransforms.length; i+=2) {
-			s=s.replace(elizaPostTransforms[i], elizaPostTransforms[i+1]);
-			elizaPostTransforms[i].lastIndex=0;
+	if ((this.global.nevPostTransforms) && (nevPostTransforms.length)) {
+		for (var i=0; i<nevPostTransforms.length; i+=2) {
+			s=s.replace(nevPostTransforms[i], nevPostTransforms[i+1]);
+			nevPostTransforms[i].lastIndex=0;
 		}
 	}
 	// capitalize first char (v.1.1: work around lambda function)
@@ -337,19 +334,19 @@ ElizaBot.prototype._postTransform = function(s) {
 	return s;
 }
 
-ElizaBot.prototype._getRuleIndexByKey = function(key) {
-	for (var k=0; k<elizaKeywords.length; k++) {
-		if (elizaKeywords[k][0]==key) return k;
+NevBot.prototype._getRuleIndexByKey = function(key) {
+	for (var k=0; k<nevKeywords.length; k++) {
+		if (nevKeywords[k][0]==key) return k;
 	}
 	return -1;
 }
 
-ElizaBot.prototype._memSave = function(t) {
+NevBot.prototype._memSave = function(t) {
 	this.mem.push(t);
 	if (this.mem.length>this.memSize) this.mem.shift();
 }
 
-ElizaBot.prototype._memGet = function() {
+NevBot.prototype._memGet = function() {
 	if (this.mem.length) {
 		if (this.noRandom) return this.mem.shift();
 		else {
@@ -363,14 +360,14 @@ ElizaBot.prototype._memGet = function() {
 	else return '';
 }
 
-ElizaBot.prototype.getFinal = function() {
-	if (!ElizaBot.prototype.global.elizaFinals) return '';
-	return elizaFinals[Math.floor(Math.random()*elizaFinals.length)];
+NevBot.prototype.getFinal = function() {
+	if (!NevBot.prototype.global.nevFinals) return '';
+	return nevFinals[Math.floor(Math.random()*nevFinals.length)];
 }
 
-ElizaBot.prototype.getInitial = function() {
-	if (!ElizaBot.prototype.global.elizaInitials) return '';
-	return elizaInitials[Math.floor(Math.random()*elizaInitials.length)];
+NevBot.prototype.getInitial = function() {
+	if (!NevBot.prototype.global.nevInitials) return '';
+	return nevInitials[Math.floor(Math.random()*nevInitials.length)];
 }
 
 

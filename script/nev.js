@@ -36,12 +36,6 @@ function elizaStep() {
 		elizaLines = temp.reverse();
 		f.e_display.value = elizaLines.join('\n');
 	}
-	else if (elizaLines.length == 0) {
-		// no input and no saved lines -> output initial
-		var initial = 'NEV: ' + eliza.getInitial();
-		elizaLines.push(initial);
-		f.e_display.value = initial + '\n';
-	}
 	f.e_input.value = '';
 	f.e_input.focus();
 }
