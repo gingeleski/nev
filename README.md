@@ -9,6 +9,7 @@ Vocal AI that makes phone conversations, opening with "Hi this is Nev from Catfi
 - This loops and conversation ensues
 
 ## Credits
+Human likeness - [Nev Schulman](http://www.nevschulman.com/)
 Dialog engine (base) - Norbert Landsteiner's [elizabot.js](http://www.masswerk.at/elizabot/)<br>
 Icons - [Ionicons](https://github.com/driftyco/ionicons)<br>
 Background images - [Unsplash](https://unsplash.com/)<br>
