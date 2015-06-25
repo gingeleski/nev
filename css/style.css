@@ -45,23 +45,27 @@ header a {
   overflow: hidden;
   margin: 0px auto;
 }
+
 header img {
   display: block;
   width: 180px;
   height: 180px;
 }
+
 header h1 {
   font-size: 24px;
   font-weight: 400;
   margin: 10px 10px 0px 10px;
 }
+
 header h2 {
   font-size: 16px;
   font-weight: 400;
   margin: 0px 10px 0px 10px;
   color: rgba(0,0,0,.4);
 }
-.profile-social-links {
+
+.profile-links {
   -webkit-box-ordinal-group: 3;
   -webkit-order: 2;
       -ms-flex-order: 2;
@@ -72,7 +76,8 @@ header h2 {
   display: table;
   width: 100%;
 }
-.profile-social-links li {
+
+.profile-links li {
   display: table-cell;
   width: 33.33%;
   height: 60px;
@@ -83,11 +88,13 @@ header h2 {
   position: relative;
   overflow: hidden;
 }
-.profile-social-links li:nth-child(2) {
+
+.profile-links li:nth-child(2) {
   border-left: 1px solid rgba(0,0,0,.1);
   border-right: 1px solid rgba(0,0,0,.1);
 }
-.profile-social-links li img {
+
+.profile-links li img {
   width: 40px;
   height: 40px;
   position: absolute;
@@ -99,17 +106,21 @@ header h2 {
   -webkit-transition: all 1.4s;
           transition: all 1.4s;
 }
-.profile-social-links li:nth-child(3) img {
+
+.profile-links li:nth-child(3) img {
   opacity: 0.5;
 }
-.profile-social-links li:nth-child(3):hover img {
+
+.profile-links li:nth-child(3):hover img {
   opacity: 1;
 }
-.profile-social-links li:hover img {
+
+.profile-links li:hover img {
   -webkit-filter: grayscale(0);
           filter: grayscale(0);
 }
-.profile-social-links li:after {
+
+.profile-links li:after {
   content: "";
   display: block;
   position: absolute;
@@ -123,10 +134,12 @@ header h2 {
   -webkit-transition: all 1s;
           transition: all 1s;
 }
-.profile-social-links li:hover:after {
+
+.profile-links li:hover:after {
   right: 0px;
 }
-.profile-social-links li a {
+
+.profile-links li a {
   display: block;
   position: absolute;
   width: 100%;
@@ -134,14 +147,16 @@ header h2 {
   left: 0;
   z-index: 2;
 }
+
 .profile-bio {
   -webkit-box-ordinal-group: 2;
   -webkit-order: 1;
       -ms-flex-order: 1;
           order: 1;
 }
+
 p {
-  padding: 20px;
+  padding: 2px 15px 2px 15px;
   letter-spacing: 1px;
   line-height: 20px;
   font-size: 14px;
@@ -150,6 +165,7 @@ p {
   text-align: center;
   z-index: 9999;
 }
+
 .profile-bio:before, .profile-bio:after {
   content: "";
   display: block;
