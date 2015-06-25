@@ -42,14 +42,6 @@
         <p>
     </div>
 
-    <div class="center" style="visibility: hidden;">
-        <div id="div_language">
-            <select id="select_language"></select>
-            &nbsp;&nbsp;
-            <select id="select_dialect"></select>
-        </div>
-    </div>
-
     <center>
     <table border="0" cellspacing="10" cellpadding="0">
     <form name="e_form" onsubmit="nevStep();return false">
@@ -75,8 +67,8 @@
         } else {
             start_button.style.display = 'inline-block';
             var recognition = new webkitSpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = true;
+            recognition.continuous = false;
+            recognition.interimResults = false;
 
             recognition.onstart = function() {
                 recognizing = true;
@@ -164,7 +156,6 @@
                 return;
             }
             final_transcript = '';
-            recognition.lang = select_dialect.value;
             recognition.start();
             ignore_onend = false;
             final_span.innerHTML = '';
