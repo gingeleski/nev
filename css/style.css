@@ -11,9 +11,9 @@ body {
 .profile-card {
   width: 430px;
   height: 600px;
-  border: 1px solid rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, .2);
   margin: 40px auto;
-  border-radius: 5px;
+  border-radius: 10px;
   background: #fff;
 
   display: -webkit-box;
@@ -111,10 +111,6 @@ header h2 {
   opacity: 0.5;
 }
 
-.profile-links li:nth-child(3):hover img {
-  opacity: 1;
-}
-
 .profile-links li:hover img {
   -webkit-filter: grayscale(0);
           filter: grayscale(0);
@@ -175,4 +171,17 @@ p {
       -ms-transform: rotate(45deg);
           transform: rotate(45deg);
   z-index: -1;
+}
+
+.talk-box {
+    text-align: center;
+    -webkit-box-ordinal-group: 4;
+    -webkit-order: 3;
+        -ms-flex-order: 3;
+            order: 3;
+    margin-top: 27px;
+}
+
+a {
+    text-decoration: none;
 }

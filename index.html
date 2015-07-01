@@ -12,48 +12,56 @@
     <script> randomizeBackground(); </script>
 
     <aside class="profile-card">
-      <header>
+        <header>
+            <!-- Avatar -->
+            <a><img id="profileImg"></a>
+            <script> randomizeProfileImg(); </script>
 
-        <!-- Avatar -->
-        <a><img id="profileImg"></a>
-        <script> randomizeProfileImg(); </script>
+            <!-- Name -->
+            <h1>Nev</h1>
+        </header>
 
-        <!-- Name -->
-        <h1>Nev</h1>
-
-      </header>
-
-      <!-- Bit of a bio -->
-      <div class="profile-bio">
+        <!-- Bit of a bio -->
+        <div class="profile-bio">
         <p>Modeled after Nev Schulman from
             <a href="https://en.wikipedia.org/wiki/Catfish:_The_TV_Show">Catfish</a>
             , I am a bot that can talk to humans.</p>
-      </div>
+        </div>
 
-      <ul class="profile-links">
+        <ul class="profile-links">
+            <!-- Toggle internal listening  -->
+            <li>
+              <a href="blank">
+                <img src="/img/icons/radio-on.svg">
+              </a>
+            </li>
 
-        <!-- Toggle internal listening  -->
-        <li>
-          <a href="blank">
-            <img src="/img/icons/radio-on.svg">
-          </a>
-        </li>
+            <!-- Toggle external/microphone listening -->
+            <li>
+              <a href="blank">
+                <img src="/img/icons/mic-on.svg">
+              </a>
+            </li>
 
-        <!-- Toggle external/microphone listening -->
-        <li>
-          <a href="blank">
-            <img src="/img/icons/mic-on.svg">
-          </a>
-        </li>
+            <!-- Github -->
+            <li>
+              <a href="https://github.com/gingeleski/nev">
+                <img src="/img/icons/github.svg">
+              </a>
+            </li>
+        </ul>
 
-        <!-- Github -->
-        <li>
-          <a href="https://github.com/gingeleski/nev">
-            <img src="/img/icons/github.svg">
-          </a>
-        </li>
-
-      </ul>
+        <div class="talk-box">
+        <table border="0" cellspacing="10" cellpadding="0">
+        <form name="e_form" onsubmit="nevStep();return false">
+            <textarea name="e_display" cols="60" rows="10"></textarea><br>
+            <input type="text" name="e_input" size="50"><br>
+            <input id="start_talk" type="submit" value="&nbsp;Start Speech&nbsp;" onclick="start()">
+            <input id="stop_talk" type="submit" value="&nbsp;Stop Speech&nbsp;" onclick="stop()">
+            <input id="send" type="submit" value"&nbsp;Send&nbsp;">
+        </form>
+        </table>
+        </div>
 
     </aside>
 
